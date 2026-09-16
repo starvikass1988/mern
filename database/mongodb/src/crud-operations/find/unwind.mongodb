@@ -10,3 +10,14 @@ db.posts
     },
   ])
   .pretty();
+
+db.posts.aggregate([
+  { $unwind: "$comments" },
+  { $match: { title: "Coffee please.", "comments.description": "Cold" } },
+  {
+    $project: {
+      title: 1,
+      "comments.comment": 1,
+    },
+  },
+]).pretty();
